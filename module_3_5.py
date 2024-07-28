@@ -1,13 +1,23 @@
-def get_multiplied_digits(number):
-    str_number = str(number)
-    first = int(str_number[0])
-    if first == 0:
-        first = 1
-    if len(str_number) == 1:
-        return first
-    else:
-        return first * get_multiplied_digits(int(str_number[1:]))
-
-
-result = get_multiplied_digits(32145341)
+def calculate_structure_sum(data_structure):
+    summa = 0
+    if isinstance(data_structure, dict):
+        for key, value in data_structure.items():
+            summa += calculate_structure_sum(key)
+            summa += calculate_structure_sum(value)
+    elif isinstance(data_structure, (list, tuple, set)):
+        for item in data_structure:
+            summa += calculate_structure_sum(item)
+    elif isinstance(data_structure, (int, float)):
+        summa += data_structure
+    elif isinstance(data_structure, str):
+        summa += len(data_structure)
+    return summa
+data_structure = [
+  [1, 2, 3],
+  {'a': 4, 'b': 5},
+  (6, {'cube': 7, 'drum': 8}),
+  "Hello",
+  ((), [{(2, 'Urban', ('Urban2', 35))}])
+]
+result = calculate_structure_sum(data_structure)
 print(result)
