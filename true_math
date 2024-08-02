@@ -1,0 +1,9 @@
+def divide(first, second):
+     if second == 0:
+         return "Ошибка"
+     return first / second
+
+
+
+result = divide(7, 4)
+print(result)
