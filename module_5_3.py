@@ -7,23 +7,32 @@ class House:
         return (f'Название: {self.name}, кол-во этажей: {self.number_of_floors}')
 
     def __len__(self):
-      return self.number_of_floors
+         return self.number_of_floors
 
     def __eq__(self, other):
+        if isinstance(other, House):
             return self.number_of_floors == other.number_of_floors
     def __lt__(self, other):
+        if isinstance(other, House):
             return self.number_of_floors < other.number_of_floors
+
     def __le__(self, other):
+        if isinstance(other, House):
             return self.number_of_floors <= other.number_of_floors
+
+
     def __ge__(self, other):
+        if isinstance(other, House):
             return self.number_of_floors >= other.number_of_floors
     def __gt__ (self,other):
+        if isinstance(other, House):
             return self.number_of_floors > other.number_of_floors
     def __ne__ (self, other):
+        if isinstance(other, House):
             return self.number_of_floors != other.number_of_floors
     def __add__(self, value):
-        self.number_of_floors += value
-        return self
+          self.number_of_floors += value
+          return self
     def __radd__(self, value):
         self.__add__(value)
         return self
