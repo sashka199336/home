@@ -1,32 +1,33 @@
 import sqlite3
 
-from module_14.db import cursor, connection
+connection = sqlite3.connect("database.db")
+cursor = connection.cursor()
 
 
 def initiate_db():
-    connection = sqlite3.connect('new_db')
-    cursor = connection.cursor()
-
     cursor.execute('''
     CREATE TABLE IF NOT EXISTS Products(
     id INTEGER PRIMARY KEY,
     title TEXT NOT NULL,
     description TEXT,
-    price TEXT NOT NULL
-    )
+    price INTEGER NOT NULL
+    );
     ''')
     cursor.execute('''
-        CREATE TABLE IF NOT EXISTS Users(
-        id INTEGER PRIMARY KEY,
-        username TEXT NOT NULL,
-        email TEXT NOT NULL,
-        age INTEGER NOT NULL,
-        balance INTEGER NOT NULL
-        );
-        ''')
+    CREATE TABLE IF NOT EXISTS Users(
+    id INTEGER PRIMARY KEY,
+    username TEXT NOT NULL,
+    email TEXT NOT NULL,
+    age INTEGER NOT NULL,
+    balance INTEGER NOT NULL
+    );
+    ''')
 
-    connection.commit()
-    # connection.close()
+    # for i in range(4):
+    #     cursor.execute("INSERT INTO Products(title, description, price) VALUES (?, ?, ?)",
+    #                    (f"Product{i+1}", f"Описание{i+1}", f"{(i+1)*100}"))
+
+    # cursor.execute("DELETE FROM Users")
 
 
 def add_user(username, email, age):
@@ -40,33 +41,12 @@ def is_included(username):
         return True
     else:
         return False
-    connection.commit()
-
-def check_and_populate_products():
-    connection = sqlite3.connect('new_db')
-    cursor = connection.cursor()
-
-    cursor.execute('SELECT COUNT(*) FROM Products')
-    count = cursor.fetchone()[0]
-
-    if count == 0:
-        for i in range(1, 5):
-            cursor.execute(
-                'INSERT INTO Products(title, description, price) VALUES (?, ?, ?)',
-                (f'Продукт {i}', f'Описание {i}', f'{i * 100}')
-            )
-    else:
-        pass
-
-    connection.commit()
-    # connection.close()
 
 
 def get_all_products():
-    connection = sqlite3.connect('new_db')
-    cursor = connection.cursor()
-    cursor.execute('SELECT * FROM Products')
-    products = cursor.fetchall()
+    products = cursor.execute("SELECT title, description, price FROM Products")
+    a = []
+    for i in products:
+        a += {f'Название: {i[0]} | Описание: {i[1]} | Цена: {i[2]}'}
     connection.commit()
-    # connection.close()
-    return products
+    return a
