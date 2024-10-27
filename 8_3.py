@@ -1,34 +1,52 @@
 class IncorrectVinNumber(Exception):
     def __init__(self, message):
         self.message = message
+        super().__init__(self.message) 
 
 
 class IncorrectCarNumbers(Exception):
     def __init__(self, message):
         self.message = message
+        super().__init__(self.message) 
 
 
 class Car:
-    def __init__(self,model,vin, numbers):
-        self.model=model
-        self.__vin=vin
-        self.__numbers=numbers
-        self.__is_valid_vin()
-        self.__is_valid_numbers()
 
-    def __is_valid_numbers(self):
-        if not isinstance(self.__numbers, str):
-            raise IncorrectCarNumbers('Некорректный тип данных для номеров')
-        if len(self.__numbers) != 6:
-            raise IncorrectCarNumbers('Неверная длина номера')
-        return True
+    def __init__(self, model, vin, numbers):
+      
+        self.model = model
+        
+        if self.__is_valid_vin(vin):
+            self.__vin = vin
+        
+        if self.__is_valid_numbers(numbers):
+            self.__numbers = numbers
 
-    def __is_valid_vin(self):
-        if not isinstance(self.__vin, int):
+    
+    def __is_valid_vin(self, vin_number):
+        
+        if isinstance(vin_number, int) == False:
+            
             raise IncorrectVinNumber('Некорректный тип vin номер')
-        if not 1000000 <= self.__vin <= 9999999:
+        
+        if not (1000000 <= vin_number <= 9999999):
+            
             raise IncorrectVinNumber('Неверный диапазон для vin номера')
+        
         return True
+
+    def __is_valid_numbers(self, numbers):
+        
+        if isinstance(numbers, str) == False:
+            
+            raise IncorrectCarNumbers('Некорректный тип данных для номеров')
+       
+        if len(numbers) != 6:
+          
+            raise IncorrectCarNumbers('Неверная длина номера')
+        
+        return True
+
 
 
 try:
@@ -50,10 +68,12 @@ else:
   print(f'{second.model} успешно создан')
 
 try:
-  third = Car('Model3', 2020202, 'нет номера')
+  third = Car('Model3', 2020102, 'нет номера')
 except IncorrectVinNumber as exc:
   print(exc.message)
 except IncorrectCarNumbers as exc:
   print(exc.message)
 else:
   print(f'{third.model} успешно создан')
+
+
