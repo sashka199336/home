@@ -11,6 +11,24 @@ from models import User
 from schemas import CreateUser, UpdateUser
 from sqlalchemy import insert, select, update, delete
 from slugify import slugify
+
+@router.get("/{user_id}/tasks")
+def tasks_by_user_id(user_id: int):
+    tasks = db.query(Task).filter(Task.user_id == user_id).all()
+    return tasks
+@router.delete("/delete")
+def delete_user(user_id: int):
+    user = db.query(User).filter(User.id == user_id).first()
+    if not user:
+        raise HTTPException(status_code=404, detail="User not found")
+    
+    # Удаление связанных задач
+    db.query(Task).filter(Task.user_id == user_id).delete()
+    
+    db.delete(user)
+    db.commit()
+    return {"status_code": status.HTTP_204_NO_CONTENT, "transaction": "Successful"}
+    
 class User(Base):
     __tablename__ = 'users'
 
