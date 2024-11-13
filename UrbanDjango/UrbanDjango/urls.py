@@ -16,11 +16,10 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
-
 from django.contrib import admin
 from django.urls import path, include
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('object_detection/', include('object_detection.urls')),  # Подключение приложения
+    path('task2/', include('task2.urls')),
 ]
