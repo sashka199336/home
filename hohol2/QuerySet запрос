@@ -1,0 +1,20 @@
+from task1.models import Buyer, Game
+
+# Создание записей Buyer
+buyer1 = Buyer.objects.create(name='Buyer1', balance=100.00, age=17)
+buyer2 = Buyer.objects.create(name='Buyer2', balance=200.00, age=25)
+buyer3 = Buyer.objects.create(name='Buyer3', balance=150.00, age=30)
+
+# Создание записей Game
+game1 = Game.objects.create(title='Game1', cost=50.00, size=2.5, description='Description of Game1', age_limited=True)
+game2 = Game.objects.create(title='Game2', cost=60.00, size=3.0, description='Description of Game2', age_limited=True)
+game3 = Game.objects.create(title='Game3', cost=70.00, size=1.5, description='Description of Game3', age_limited=False)
+
+# Связывание игр и покупателей
+game1.buyers.set([buyer2, buyer3])  # Покупатели для Game1
+game2.buyers.set([buyer2, buyer3])  # Покупатели для Game2
+game3.buyers.set([buyer1, buyer2, buyer3])  # Game3 доступен всем покупателям
+
+# Убедитесь, что buyer1 не получает игры с age_limited=True
+game1.buyers.remove(buyer1)
+game2.buyers.remove(buyer1)
