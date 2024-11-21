@@ -1,0 +1,24 @@
+# Задача 1
+result = (9 ** 0.5) * 5
+print(result)
+
+# Задача 2
+is_true = (9.99 > 9.98) and (1000 != 1000.1)
+print(is_true)
+
+# Задача 3
+expression_without_priority = 2 * 2 + 2
+expression_with_priority = 2 * (2 + 2)
+comparison_result = expression_without_priority == expression_with_priority
+
+print(expression_without_priority)
+print(expression_with_priority)
+print(comparison_result)
+
+# Задача 4
+number_str = '123.456'
+number_float = float(number_str)
+shifted_number = number_float * 10
+first_digit_after_decimal = int(shifted_number) % 10
+
+print(first_digit_after_decimal)
