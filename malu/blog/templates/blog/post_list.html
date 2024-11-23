@@ -1,0 +1,64 @@
+<!-- blog/templates/blog/post_list.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Blog Posts</title>
+    <style>
+        .pagination {
+            display: flex;
+            justify-content: center;
+            list-style-type: none;
+        }
+        .pagination li {
+            margin: 0 5px;
+        }
+        .pagination a {
+            text-decoration: none;
+            padding: 5px 10px;
+            color: #000;
+            background-color: #f4f4f4;
+            border-radius: 3px;
+        }
+        .pagination a:hover {
+            background-color: #ddd;
+        }
+        .pagination .current {
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <h1>Blog Posts</h1>
+    <ul>
+        {% for post in page_obj %}
+            <li>{{ post.title }} - {{ post.created_at }}</li>
+        {% endfor %}
+    </ul>
+
+    <form method="get">
+        <label for="items_per_page">Items per page:</label>
+        <select name="items_per_page" id="items_per_page" onchange="this.form.submit()">
+            <option value="5" {% if page_obj.paginator.per_page == 5 %}selected{% endif %}>5</option>
+            <option value="10" {% if page_obj.paginator.per_page == 10 %}selected{% endif %}>10</option>
+            <option value="15" {% if page_obj.paginator.per_page == 15 %}selected{% endif %}>15</option>
+        </select>
+    </form>
+
+    <ul class="pagination">
+        {% if page_obj.has_previous %}
+            <li><a href="?page=1&items_per_page={{ items_per_page }}">&laquo; first</a></li>
+            <li><a href="?page={{ page_obj.previous_page_number }}&items_per_page={{ items_per_page }}">previous</a></li>
+        {% endif %}
+
+        <li class="current">
+            Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
+        </li>
+
+        {% if page_obj.has_next %}
+            <li><a href="?page={{ page_obj.next_page_number }}&items_per_page={{ items_per_page }}">next</a></li>
+            <li><a href="?page={{ page_obj.paginator.num_pages }}&items_per_page={{ items_per_page }}">last &raquo;</a></li>
+        {% endif %}
+    </ul>
+</body>
+</html>
